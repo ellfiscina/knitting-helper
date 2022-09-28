@@ -1,20 +1,35 @@
-import { useEffect } from "react";
-import hello from "../pages/api/hello";
+import { useEffect, useState } from "react";
+import useAPI from "../services/useAPI";
+
+const SearchResults = () => {
+  const { data, isLoading, isError } = useAPI("/api/ravelry");
+
+  console.log(data);
+  if (isError) return <div>failed to load</div>;
+  if (!data) return <div>loading...</div>;
+
+  return <div>found</div>;
+};
 
 const YarnSub = () => {
-  const getYarn = async () => {
-    try {
-      const res = await hello.get("yarn_attributes/groups.json");
-      console.log(res);
-    } catch (error) {
-      return { error };
-    }
+  const [startFetching, setStartFetching] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleChange = (e) => {
+    setStartFetching(false);
+    setSearchTerm(e.target.value);
   };
 
-  useEffect(() => {
-    getYarn();
-  });
-  return <div>Sub</div>;
+  const handleClick = () => {
+    setStartFetching(true);
+  };
+
+  return (
+    <>
+      <div onClick={handleClick}>hello!</div>
+      {startFetching && <SearchResults />}
+    </>
+  );
 };
 
 export default YarnSub;
