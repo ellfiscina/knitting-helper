@@ -1,6 +1,6 @@
 import useSWR from "swr";
 
-const fetcher = (url: string) => fetch(url).then((res) => res);
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function useAPI (route:string) {
     const { data, error } = useSWR(route, fetcher)
