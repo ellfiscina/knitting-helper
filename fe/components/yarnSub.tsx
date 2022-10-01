@@ -3,6 +3,23 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Yarn } from "../services/types";
 import useAPI from "../services/useAPI";
 
+const FindSubstitute = ({ yarn }: { yarn: Yarn }) => {
+  const weight = yarn.weight.toLowerCase().replace(" ", "-");
+  const { data, isLoading, isError } = useAPI(`/api/yarnWeight/${weight}`);
+
+  console.log(data);
+  if (isError) return <div>failed to load</div>;
+  if (isLoading) return <div>loading...</div>;
+  if (data) {
+    return (
+      <>
+        <div>po</div>
+      </>
+    );
+  }
+  return <div>Not found</div>;
+};
+
 const SearchResults = ({
   yarnName,
   setYarn,
@@ -12,25 +29,36 @@ const SearchResults = ({
   setYarn: (yarn: Yarn) => void;
   setStartFetching: (start: boolean) => void;
 }) => {
-  const { data, isLoading, isError } = useAPI(`/api/ravelry/${yarnName}`);
+  const { data, isLoading, isError } = useAPI(`/api/yarnName/${yarnName}`);
+
+  useEffect(() => {
+    if (data) {
+      const selectedYarn: Yarn = {
+        name: data.name,
+        grams: data.grams,
+        yardage: data.yardage,
+        companyName: data.yarn_company.name,
+        weight: data.yarn_weight.name,
+        gaugeSt: data.min_gauge,
+        gaugeIn: data.gauge_divisor,
+        texture: data.texture,
+        fibers: data.yarn_fibers.map((f: any) => f.fiber_type.name).join(","),
+      };
+
+      setYarn(selectedYarn);
+      setStartFetching(false);
+    }
+  }, [data]);
 
   console.log(data);
   if (isError) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
-  if (!isLoading && data && data.name.toLowerCase() === yarnName) {
-    const selectedYarn: Yarn = {
-      name: data.name,
-      grams: data.grams,
-      yardage: data.yardage,
-      companyName: data.yarn_company.name,
-      weight: data.yarn_weight.name,
-      gaugeSt: data.min_gauge,
-      gaugeIn: data.gauge_divisor,
-      texture: data.texture,
-      fibers: data.yarn_fibers.map((f: any) => f.fiber_type.name).join(","),
-    };
-
-    return <div>{selectedYarn.name}</div>;
+  if (isLoading) return <div>loading...</div>;
+  if (data && data.name.toLowerCase() === yarnName) {
+    return (
+      <>
+        <div>{data.name}</div>
+      </>
+    );
   }
   return <div>Not found</div>;
 };
@@ -82,10 +110,16 @@ const YarnSub = () => {
       </Box>
       {startFetching && (
         <SearchResults
-          setYarn={setYarn}
           yarnName={searchTerm}
+          setYarn={setYarn}
           setStartFetching={setStartFetching}
         />
+      )}
+      {yarn && (
+        <>
+          <div>{yarn.name}</div>
+          <FindSubstitute yarn={yarn} />
+        </>
       )}
     </>
   );
