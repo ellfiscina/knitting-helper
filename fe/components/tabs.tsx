@@ -2,8 +2,8 @@ import { useState, SyntheticEvent } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
+import Gauge from "./gauge";
 import Calculator from "./calculator";
-import YarnSub from "./yarnSub";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -53,15 +53,19 @@ const ColorTabs = () => {
           indicatorColor="secondary"
           aria-label="secondary tabs example"
         >
-          <Tab value={0} label="Calculator" />
-          <Tab value={1} label="Yarn Sub" />
+          <Tab value={0} label="Increase" />
+          <Tab value={1} label="Decrease" />
+          <Tab value={2} label="Gauge" />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Calculator />
+        <Calculator increase />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <YarnSub />
+        <Calculator />
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <Gauge />
       </TabPanel>
     </>
   );
