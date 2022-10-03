@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import {
-  Box,
+  Grid,
   Button,
   capitalize,
   Checkbox,
@@ -10,7 +10,7 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
-import { ChangeEvent, ReactElement, useState } from "react";
+import { ChangeEvent, ReactElement, useEffect, useState } from "react";
 
 const RadioInput = ({ option }: { option: string }): ReactElement => {
   return (
@@ -47,6 +47,7 @@ const NumberInput = ({
       name={name}
       onChange={onChange}
       error={error}
+      style={{ width: "310px" }}
     />
   );
 };
@@ -111,9 +112,6 @@ const Calculator = (): ReactElement => {
 
   const centerStichesInTheRound = (values: initialValues) => {
     const segmentSize = Math.floor(divideStitches(values));
-    const extraSt =
-      values.currentSt - segmentSize * (values.numberSt + plusOne);
-    const divideExtraSt = Math.ceil(extraSt / 2);
 
     if (option === "increase") {
       return `[K${segmentSize} 1 inc] x ${values.numberSt}`;
@@ -152,24 +150,20 @@ const Calculator = (): ReactElement => {
 
   return (
     <>
-      <Box
+      <Grid
         component="form"
-        sx={{
-          "& > :not(style)": { m: 1 },
-          width: "500px",
-        }}
+        sx={{ "& > :not(style)": { m: 1 } }}
         noValidate
         autoComplete="off"
       >
-        <FormLabel id="demo-row-radio-buttons-group-label">
-          Choose action
-        </FormLabel>
+        <FormLabel id="row-radio-buttons-group-label">Choose action</FormLabel>
         <RadioGroup
           row
-          aria-labelledby="demo-row-radio-buttons-group-label"
+          aria-labelledby="row-radio-buttons-group-label"
           name="row-radio-buttons-group"
           value={option}
           onChange={handleChange}
+          style={{ marginRight: "0", marginTop: "0" }}
         >
           <RadioInput option="Increase" />
           <RadioInput option="Decrease" />
@@ -223,6 +217,7 @@ const Calculator = (): ReactElement => {
             />
 
             <FormControlLabel
+              style={{ margin: 0 }}
               className="d-block"
               control={
                 <Checkbox
@@ -243,10 +238,10 @@ const Calculator = (): ReactElement => {
         >
           Submit
         </Button>
-      </Box>
-      <Box>
+      </Grid>
+      <Grid>
         <p className="pt-2">{results}</p>
-      </Box>
+      </Grid>
     </>
   );
 };

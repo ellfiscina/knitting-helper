@@ -1,10 +1,9 @@
-import { useState, SyntheticEvent } from 'react';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import Calculator from './calculator';
-import YarnSub from './yarnSub';
-
+import { useState, SyntheticEvent } from "react";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
+import Calculator from "./calculator";
+import YarnSub from "./yarnSub";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -38,10 +37,15 @@ const ColorTabs = () => {
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-    
+
   return (
     <>
-      <Box sx={{ width: '100%' }} display='flex' alignItems='center' justifyContent='center'>
+      <Box
+        sx={{ width: "100%" }}
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
         <Tabs
           value={value}
           onChange={handleChange}
@@ -57,10 +61,10 @@ const ColorTabs = () => {
         <Calculator />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <YarnSub /> 
+        <YarnSub />
       </TabPanel>
     </>
   );
-}
+};
 
 export default ColorTabs;
