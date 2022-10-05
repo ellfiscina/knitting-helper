@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import hello from "../pages/api/hello";
 
 const YarnSub = () => {
   const getYarn = async () => {
