@@ -12,7 +12,7 @@ const Calculator = ({ increase }: { increase?: boolean }): ReactElement => {
     numberSt: 0,
   });
   const plusOne = inTheRound ? 0 : 1;
-  console.log(values);
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValues({
       ...values,
@@ -22,7 +22,7 @@ const Calculator = ({ increase }: { increase?: boolean }): ReactElement => {
 
   const divideStitches = () => {
     const st = values.currentSt / (values.numberSt + plusOne);
-    console.log(values.numberSt + plusOne);
+
     return Math.floor(st);
   };
 
