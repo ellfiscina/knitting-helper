@@ -31,7 +31,7 @@ const Calculator = ({ increase }: { increase?: boolean }): ReactElement => {
   };
 
   const extraStiches = (extraSt: number) => {
-    return hasRemainder() ? `K${extraSt}, ` : "";
+    return hasRemainder() ? `K${extraSt} ` : "";
   };
 
   const centerStiches = () => {
@@ -40,25 +40,24 @@ const Calculator = ({ increase }: { increase?: boolean }): ReactElement => {
       values.currentSt - segmentSize * (values.numberSt + plusOne);
     const divideExtraSt = Math.ceil(extraSt / 2);
 
-    if (increase) {
-      return `${extraStiches(divideExtraSt)}[K${segmentSize} M1] x ${
-        values.numberSt
-      } K${segmentSize} ${extraStiches(extraSt - divideExtraSt)}}`;
-    }
+    const extraBeg = extraStiches(divideExtraSt);
+    const extraEnd = extraSt - divideExtraSt;
+    const repeat = increase
+      ? `K${segmentSize} M1`
+      : `K${segmentSize - 2} dec 1`;
 
-    return `${extraStiches(divideExtraSt)}[K${segmentSize - 2} 1 dec] x ${
-      values.numberSt
-    } K${segmentSize} ${extraStiches(extraSt - divideExtraSt)}}`;
+    return `${extraBeg}[${repeat}] x ${values.numberSt} K${
+      segmentSize + extraEnd
+    }`;
   };
 
   const centerStichesInTheRound = () => {
     const segmentSize = divideStitches();
+    const repeat = increase
+      ? `K${segmentSize} M1`
+      : `K${segmentSize - 2} dec 1`;
 
-    if (increase) {
-      return `[K${segmentSize} 1 inc] x ${values.numberSt}`;
-    }
-
-    return `[K${segmentSize - 2} 1 dec] x ${values.numberSt}`;
+    return `[${repeat}] x ${values.numberSt}`;
   };
 
   const handleOnSubmit = () => {

@@ -2,6 +2,7 @@ import { Grid, Button } from "@mui/material";
 import { ChangeEvent, ReactElement, useState } from "react";
 import { gaugeFormValues } from "../services/types";
 import NumberInput from "./numberInput";
+import ResultBox from "./resultBox";
 
 const Gauge = (): ReactElement => {
   const [results, setResults] = useState<string | null>(null);
@@ -68,9 +69,7 @@ const Gauge = (): ReactElement => {
           Submit
         </Button>
       </Grid>
-      <Grid>
-        <p className="pt-2">{results}</p>
-      </Grid>
+      <ResultBox results={results} />
     </>
   );
 };
