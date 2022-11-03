@@ -1,15 +1,16 @@
 import { Grid, Button, Checkbox, FormControlLabel } from "@mui/material";
+import { debug } from "console";
 import { ChangeEvent, ReactElement, useState } from "react";
 import { calculatorFormValues } from "../services/types";
 import NumberInput from "./numberInput";
 import ResultBox from "./resultBox";
 
-const Calculator = ({ increase }: { increase?: boolean }): ReactElement => {
+const Calculator = (): ReactElement => {
   const [results, setResults] = useState<string | null>(null);
   const [inTheRound, setInTheRound] = useState(false);
   const [values, setValues] = useState<calculatorFormValues>({
     currentSt: 0,
-    numberSt: 0,
+    finalSt: 0,
   });
   const plusOne = inTheRound ? 0 : 1;
 
@@ -20,52 +21,42 @@ const Calculator = ({ increase }: { increase?: boolean }): ReactElement => {
     });
   };
 
-  const divideStitches = () => {
-    const st = values.currentSt / (values.numberSt + plusOne);
-
+  const divideStitches = (numberSt: number) => {
+    const st = values.currentSt / (numberSt + plusOne);
     return Math.floor(st);
   };
 
   const hasRemainder = () => {
-    return values.currentSt % (values.numberSt + plusOne);
+    return values.currentSt % (values.finalSt + plusOne);
   };
 
-  const extraStiches = (extraSt: number) => {
+  let extraStiches = (extraSt: number) => {
     return hasRemainder() ? `K${extraSt} ` : "";
   };
 
-  const centerStiches = () => {
-    const segmentSize = divideStitches();
-    const extraSt =
-      values.currentSt - segmentSize * (values.numberSt + plusOne);
-    const divideExtraSt = Math.ceil(extraSt / 2);
+  const centerStiches = (numberSt: number) => {
+    let extraBeg = "";
+    let extraEnd = "";
+    const segmentSize = divideStitches(numberSt);
+    const repeat =
+      values.currentSt < values.finalSt
+        ? `K${segmentSize} M1`
+        : `K${segmentSize - 2} dec 1`;
 
-    const extraBeg = extraStiches(divideExtraSt);
-    const extraEnd = extraSt - divideExtraSt;
-    const repeat = increase
-      ? `K${segmentSize} M1`
-      : `K${segmentSize - 2} dec 1`;
+    if (!inTheRound) {
+      const extraSt = values.currentSt - segmentSize * (numberSt + plusOne);
+      const divideExtraSt = Math.ceil(extraSt / 2);
 
-    return `${extraBeg}[${repeat}] x ${values.numberSt} K${
-      segmentSize + extraEnd
-    }`;
-  };
+      extraBeg = extraStiches(divideExtraSt);
+      extraEnd = ` K${segmentSize + extraSt - divideExtraSt}`;
+    }
 
-  const centerStichesInTheRound = () => {
-    const segmentSize = divideStitches();
-    const repeat = increase
-      ? `K${segmentSize} M1`
-      : `K${segmentSize - 2} dec 1`;
-
-    return `[${repeat}] x ${values.numberSt}`;
+    return `${extraBeg}[${repeat}] x ${numberSt}${extraEnd}`;
   };
 
   const handleOnSubmit = () => {
-    if (inTheRound) {
-      setResults(centerStichesInTheRound());
-    } else {
-      setResults(centerStiches());
-    }
+    const numberSt = Math.abs(values.currentSt - values.finalSt);
+    setResults(centerStiches(numberSt));
   };
 
   return (
@@ -83,10 +74,10 @@ const Calculator = ({ increase }: { increase?: boolean }): ReactElement => {
           label="Current Stitch Count"
         />
         <NumberInput
-          name="numberSt"
+          name="finalSt"
           onChange={handleChange}
           id="number-st-input"
-          label={`Number of Stitches to ${increase ? "Increase" : "Decrease"}`}
+          label="Desired Number of Stitches"
         />
 
         <FormControlLabel

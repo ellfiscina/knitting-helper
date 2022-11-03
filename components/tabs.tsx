@@ -4,6 +4,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import Gauge from "./gauge";
 import Calculator from "./calculator";
+import YarnSub from "./yarnSub";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -53,19 +54,19 @@ const ColorTabs = () => {
           indicatorColor="secondary"
           aria-label="secondary tabs example"
         >
-          <Tab value={0} label="Increase" />
-          <Tab value={1} label="Decrease" />
-          <Tab value={2} label="Gauge" />
+          <Tab value={0} label="Calculator" />
+          <Tab value={1} label="Gauge" />
+          <Tab value={2} label="Sub" />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Calculator increase />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
         <Calculator />
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={value} index={1}>
         <Gauge />
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <YarnSub />
       </TabPanel>
     </>
   );

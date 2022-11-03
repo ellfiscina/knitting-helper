@@ -6,17 +6,19 @@ export type gaugeFormValues = {
 
 export type calculatorFormValues = {
     currentSt: number;
-    numberSt: number;
+    finalSt: number;
 };
 
 export type Yarn = {
     name: string;
     grams: number;
     yardage: number;
-    companyName: string;
+    company: string;
     weight: string;
-    gaugeSt: number;
-    gaugeIn: number;
-    fibers: string;
+    gauge: string;
+    fibers: {
+        name: string;
+        kind: number;
+    }[];
     texture: string;
 }
