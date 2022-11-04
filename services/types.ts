@@ -9,6 +9,10 @@ export type calculatorFormValues = {
     finalSt: number;
 };
 
+export type Fiber = {
+    name: string;
+    kind: number;
+}
 export type Yarn = {
     name: string;
     grams: number;
@@ -16,9 +20,6 @@ export type Yarn = {
     company: string;
     weight: string;
     gauge: string;
-    fibers: {
-        name: string;
-        kind: number;
-    }[];
+    fibers: Fiber[];
     texture: string;
 }
