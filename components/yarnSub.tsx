@@ -54,8 +54,13 @@ const YarnSub = () => {
           Submit
         </Button>
       </Grid>
-      {yarnList.length > 0 &&
-        yarnList.map((yarn, index) => <h5 key={index}>{yarn.name}</h5>)}
+      {yarnList.length > 0 && (
+        <ul>
+          {yarnList.map((yarn, index) => (
+            <h5 key={index}>{yarn.name}</h5>
+          ))}
+        </ul>
+      )}
     </>
   );
 };
