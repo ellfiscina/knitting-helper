@@ -36,7 +36,7 @@ const ListIcon = ({
 }: {
   firstYarn: Yarn;
   yarn: Yarn;
-  attr: string;
+  attr: keyof Yarn;
 }): ReactElement => {
   let isEqual;
   let color;
