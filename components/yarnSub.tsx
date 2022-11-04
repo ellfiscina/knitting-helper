@@ -6,10 +6,10 @@ import { Yarn } from "../services/types";
 const YarnSub = () => {
   const [name, setName] = useState<string>("");
   const [yarnList, setYarnList] = useState<Yarn[]>([]);
-
+  const url = process.env.NEXT_PUBLIC_API_URL;
   const getYarn = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/ravelry/yarns", {
+      const response = await axios.get(`${url}/ravelry/yarns`, {
         params: { name },
       });
       setYarnList(response.data);
@@ -54,6 +54,8 @@ const YarnSub = () => {
           Submit
         </Button>
       </Grid>
+      {yarnList.length > 0 &&
+        yarnList.map((yarn, index) => <h5 key={index}>{yarn.name}</h5>)}
     </>
   );
 };
