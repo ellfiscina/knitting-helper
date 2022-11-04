@@ -22,4 +22,5 @@ export type Yarn = {
     gauge: string;
     fibers: Fiber[];
     texture: string;
+    link: string;
 }

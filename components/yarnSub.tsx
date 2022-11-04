@@ -15,6 +15,7 @@ import {
   ListItemText,
   ListItemIcon,
   TextField,
+  ListItemButton,
 } from "@mui/material";
 import { Fiber, Yarn } from "../services/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,6 +24,7 @@ import {
   faBriefcase,
   faCircleCheck,
   faCircleXmark,
+  faShoppingBasket,
 } from "@fortawesome/free-solid-svg-icons";
 
 const getFibers = (fibers: Fiber[]) => {
@@ -154,6 +156,19 @@ const YarnSub = () => {
                       id="panel1a-header"
                     >
                       <h5>{yarn.name}</h5>
+                      {yarn.link && (
+                        <a
+                          href={yarn.link}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="px-3 muted"
+                        >
+                          <FontAwesomeIcon
+                            icon={faShoppingBasket}
+                            color="#7b1fa2"
+                          />
+                        </a>
+                      )}
                     </AccordionSummary>
                     <AccordionDetails>
                       <List>
